@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Merges changes from the upstream without the undesired commits.
+
+set -e
+
+git merge --no-edit upstream/main
+
+git rebase --onto 2b1f7cc9ea70119109e9ffd559c27b449ff83546{^,}
