@@ -4,6 +4,31 @@
 
 set -e
 
-git merge --no-edit upstream/main
+export GIT_EDITOR=true
 
-git rebase --onto 2b1f7cc9ea70119109e9ffd559c27b449ff83546{^,}
+git switch \
+	--detach \
+	upstream/main
+
+git rebase \
+	--onto 2b1f7cc9ea70119109e9ffd559c27b449ff83546{^,} ||
+	true
+
+# Files added by the undesired commits.
+rm -fr \
+	LICENSE \
+	LICENSES \
+	REUSE.toml
+
+git add -A
+
+git rebase --continue || true
+
+git rebase main
+
+git branch \
+	--force \
+	main \
+	HEAD
+
+git switch main
